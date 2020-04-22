@@ -93,4 +93,86 @@
 
 		}
 
+		function getOS() {
+		  var userAgent = window.navigator.userAgent,
+		      platform = window.navigator.platform,
+		      macosPlatforms = ['Macintosh', 'MacIntel', 'MacPPC', 'Mac68K'],
+		      windowsPlatforms = ['Win32', 'Win64', 'Windows', 'WinCE'],
+		      iosPlatforms = ['iPhone', 'iPad', 'iPod'],
+		      os = null;
+
+		  if (macosPlatforms.indexOf(platform) !== -1) {
+		    os = 'macos';
+		  } else if (iosPlatforms.indexOf(platform) !== -1) {
+		    os = 'ios';
+		  } else if (windowsPlatforms.indexOf(platform) !== -1) {
+		    os = 'windows';
+		  } else if (/Android/.test(userAgent)) {
+		    os = 'android';
+		  } else if (!os && /Linux/.test(platform)) {
+		    os = 'linux';
+		  }
+
+		  return os;
+		}
+
+
+	function activate(tag) {
+		let items = document.getElementsByClassName(tag);
+		for(var i = 0; i < items.length; i++)
+		{
+		   items[i].style.display = "initial";
+		}
+	}
+
+	const identity = x => x;
+
+	function setContent(queryParam, variable, transformation = identity) {
+		const urlParams = new URLSearchParams(window.location.search);
+		let value = urlParams.get(queryParam);
+		if (document.getElementById(variable)) {
+			document.getElementById(variable).innerHTML = transformation(value);
+		}
+	}
+
+	// dynamic content
+	const urlParams = new URLSearchParams(window.location.search);
+
+	// Variables
+	setContent('screenOff', 'screen-off');
+	setContent('screenSaver', 'screen-saver');
+	setContent('screenCount', 'screen-count');
+	let screens = urlParams.get('screenCount');
+
+	let nightUpTime = 10;
+	let averageScreenConsumption = 30 * 0.001;
+	let oilkWhMass = 0.086;
+	let oilDensity = 0.9;
+	let monthNights = 28;
+	let screensPower = (x) => { return (x * nightUpTime * averageScreenConsumption, 2).toFixed(2)}
+	setContent('screenCount', 'power', screensPower);
+
+	let screensConsumption = (x) => {return (x * nightUpTime * averageScreenConsumption * oilkWhMass * oilDensity * monthNights).toFixed(2)}
+	setContent('screenCount', 'monthOil', screensConsumption);
+
+	// Status
+	const os = getOS();
+	if (urlParams.entries().next().value == null) {
+		activate('welcome');
+		return;
+	}
+	else {
+		console.log(`os found: ${os}`);
+		activate(os)
+	}
+	const screenOff = parseInt(urlParams.get('screenOff'));
+	const screenSaver = parseInt(urlParams.get('screenSaver'));
+	console.log(`Screen turned off after:${screenOff}s`);
+	if (screenOff > 0 || screenSaver > 0) {
+		activate('awesome');
+	}
+	else {
+		activate("improve");
+	}
+
 })(jQuery);

@@ -1,0 +1,43 @@
+html {
+  min-height: 100%;
+}
+
+.windows {
+  display: none;
+}
+
+.linux {
+  display: none;
+}
+
+.ios {
+  display: none;
+}
+
+.awesome {
+  display: none;
+}
+
+.improve {
+  display: none;
+}
+
+.welcome {
+  display: none;
+}
+
+.disabled {
+  cursor: unset;
+  color: #555;
+}
+
+.disabled:hover {
+  cursor: unset;
+  background-color: #fff;
+}
+
+#footer {
+  height: 100%;
+  background: #333;
+  color: #fff
+}
