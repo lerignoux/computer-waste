@@ -149,7 +149,7 @@
 	let oilkWhMass = 0.086;
 	let oilDensity = 0.9;
 	let monthNights = 28;
-	let screensPower = (x) => { return (x * nightUpTime * averageScreenConsumption, 2).toFixed(2)}
+	let screensPower = (x) => { return (x * nightUpTime * averageScreenConsumption).toFixed(2)}
 	setContent('screenCount', 'power', screensPower);
 
 	let screensConsumption = (x) => {return (x * nightUpTime * averageScreenConsumption * oilkWhMass * oilDensity * monthNights).toFixed(2)}
